@@ -1,4 +1,4 @@
-package com.example.fakestore.ui
+package com.example.fakestore.ui.login
 
 sealed class LoginState {
     data object Idle : LoginState()

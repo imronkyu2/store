@@ -1,4 +1,4 @@
-package com.example.fakestore.ui
+package com.example.fakestore.ui.login
 
 import android.os.Bundle
 import android.view.View
@@ -9,30 +9,24 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.fakestore.databinding.ActivityLoginBinding
-import com.example.fakestore.util.NetworkMonitor
+import com.example.fakestore.ui.ErrorBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val viewModel: LoginViewModel by viewModels()
 
-    @Inject
-    lateinit var networkMonitor: NetworkMonitor
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Mulai monitoring jaringan
-        networkMonitor.startMonitoring()
-
         setupObservers()
+        setupButton()
+    }
 
+    private fun setupButton() {
         binding.btnLogin.setOnClickListener {
             val username = binding.etUsername.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
@@ -68,7 +62,11 @@ class LoginActivity : AppCompatActivity() {
                                 if (username.isNotEmpty() && password.isNotEmpty()) {
                                     viewModel.login(username, password)
                                 } else {
-                                    Toast.makeText(this@LoginActivity, "Enter username and password", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "Enter username and password",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         }
@@ -85,9 +83,4 @@ class LoginActivity : AppCompatActivity() {
         errorBottomSheet.show(supportFragmentManager, "ErrorBottomSheet")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        // Berhenti memonitor jaringan saat activity dihancurkan
-        networkMonitor.stopMonitoring()
-    }
 }

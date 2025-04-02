@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fakestore.MainActivity
 import com.example.fakestore.R
 import com.example.fakestore.data.local.TokenManager
+import com.example.fakestore.ui.login.LoginActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 

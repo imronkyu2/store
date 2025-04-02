@@ -1,4 +1,4 @@
-package com.example.fakestore.ui
+package com.example.fakestore.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
