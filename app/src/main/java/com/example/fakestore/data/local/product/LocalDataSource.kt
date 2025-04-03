@@ -33,6 +33,7 @@ class LocalDataSource @Inject constructor(
     }
 
     suspend fun clearCategorySelections() {
+        // This will update all categories to isChecked = false
         categoryDao.clearAllSelections()
     }
 }

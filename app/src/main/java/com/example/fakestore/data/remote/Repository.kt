@@ -170,4 +170,9 @@ class Repository @Inject constructor(
         }
     }
 
+
+    suspend fun clearAllCategorySelections() {
+        localDataSource.clearCategorySelections()
+    }
+
 }

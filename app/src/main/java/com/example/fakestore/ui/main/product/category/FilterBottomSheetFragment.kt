@@ -59,7 +59,14 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun setupButtons() {
         binding.btnReset.setOnClickListener {
+            // 1. Clear selections in ViewModel
             viewModel.clearCategorySelections()
+
+            // 2. Immediately notify listener with empty set
+            listener?.onApplyFilter(emptySet())
+
+            // 3. Close the bottom sheet
+            dismiss()
         }
 
         binding.btnApply.setOnClickListener {
@@ -71,7 +78,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
             dismiss()
         }
     }
-
     fun setFilterListener(listener: FilterListener) {
         this.listener = listener
     }

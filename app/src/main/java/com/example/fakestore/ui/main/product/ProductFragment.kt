@@ -62,24 +62,29 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         val bottomSheet = FilterBottomSheetFragment().apply {
             setFilterListener(object : FilterBottomSheetFragment.FilterListener {
                 override fun onApplyFilter(selectedCategories: Set<String>) {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.productState.collect { state ->
-                            if (state is ProductState.Success) {
-                                val filtered = if (selectedCategories.isEmpty()) {
-                                    state.products
-                                } else {
-                                    state.products.filter {
-                                        selectedCategories.contains(it.category)
-                                    }
-                                }
-                                showProducts(filtered)
-                            }
-                        }
-                    }
+                    // This will be called immediately when reset is clicked
+                    filterProducts(selectedCategories)
                 }
             })
         }
         bottomSheet.show(parentFragmentManager, FilterBottomSheetFragment.TAG)
+    }
+
+    private fun filterProducts(selectedCategories: Set<String>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.productState.collect { state ->
+                if (state is ProductState.Success) {
+                    val filtered = if (selectedCategories.isEmpty()) {
+                        state.products // Show all products when empty
+                    } else {
+                        state.products.filter {
+                            selectedCategories.contains(it.category)
+                        }
+                    }
+                    showProducts(filtered)
+                }
+            }
+        }
     }
 
     private fun showLoading() {

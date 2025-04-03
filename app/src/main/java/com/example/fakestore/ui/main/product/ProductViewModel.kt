@@ -52,14 +52,16 @@ class ProductViewModel @Inject constructor(
         }
     }
 
+
     fun clearCategorySelections() {
         viewModelScope.launch {
-            _categories.value.forEach { category ->
-                if (category.isChecked) {
-                    repository.updateCategoryCheckedStatus(category.id, false)
-                }
-            }
+            // Update all categories to unchecked in database
+            repository.clearAllCategorySelections()
+            // Refresh the categories list
             loadCategories()
         }
     }
+
+
+
 }

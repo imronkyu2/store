@@ -16,6 +16,6 @@ interface CategoryDao {
     @Query("UPDATE categories SET isChecked = :isChecked WHERE id = :categoryId")
     suspend fun updateCategoryCheckedStatus(categoryId: Int, isChecked: Boolean)
 
-    @Query("UPDATE categories SET isChecked = 0")
+    @Query("UPDATE categories SET isChecked = 0") // Sets all isChecked to false
     suspend fun clearAllSelections()
 }
