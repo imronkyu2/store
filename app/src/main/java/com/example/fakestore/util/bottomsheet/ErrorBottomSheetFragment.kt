@@ -1,4 +1,4 @@
-package com.example.fakestore.ui
+package com.example.fakestore.util.bottomsheet
 
 import android.os.Bundle
 import android.view.LayoutInflater

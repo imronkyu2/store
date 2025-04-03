@@ -1,4 +1,4 @@
-package com.example.fakestore.ui.main.product
+package com.example.fakestore.util.state
 
 import com.example.fakestore.data.model.product.Product
 

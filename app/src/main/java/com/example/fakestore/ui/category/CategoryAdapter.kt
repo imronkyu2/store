@@ -1,4 +1,4 @@
-package com.example.fakestore.ui.main.product.category
+package com.example.fakestore.ui.category
 
 import android.view.LayoutInflater
 import android.view.View

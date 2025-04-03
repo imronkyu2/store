@@ -1,4 +1,4 @@
-package com.example.fakestore.ui.main.home
+package com.example.fakestore.ui.keranjang
 
 import android.os.Bundle
 import android.view.LayoutInflater

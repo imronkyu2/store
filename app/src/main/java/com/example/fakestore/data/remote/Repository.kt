@@ -8,8 +8,8 @@ import com.example.fakestore.data.local.product.ProductEntity
 import com.example.fakestore.data.model.login.LoginRequest
 import com.example.fakestore.data.model.product.Product
 import com.example.fakestore.data.model.product.Rating
-import com.example.fakestore.ui.login.LoginState
-import com.example.fakestore.ui.main.product.ProductState
+import com.example.fakestore.util.state.LoginState
+import com.example.fakestore.util.state.ProductState
 import com.example.fakestore.util.NetworkMonitor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow

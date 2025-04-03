@@ -1,9 +1,10 @@
-package com.example.fakestore.ui.main.product
+package com.example.fakestore.ui.product
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fakestore.data.local.category.CategoryEntity
 import com.example.fakestore.data.remote.Repository
+import com.example.fakestore.util.state.ProductState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

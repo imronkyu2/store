@@ -1,4 +1,4 @@
-package com.example.fakestore.ui.main.product.adapter
+package com.example.fakestore.ui.product.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

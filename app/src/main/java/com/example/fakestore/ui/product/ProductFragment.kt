@@ -1,4 +1,4 @@
-package com.example.fakestore.ui.main.product
+package com.example.fakestore.ui.product
 
 import android.os.Bundle
 import android.view.View
@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.data.model.product.Product
 import com.example.fakestore.databinding.FragmentProductBinding
-import com.example.fakestore.ui.ErrorBottomSheetFragment
-import com.example.fakestore.ui.main.product.adapter.ProductAdapter
-import com.example.fakestore.ui.main.product.category.FilterBottomSheetFragment
+import com.example.fakestore.util.bottomsheet.ErrorBottomSheetFragment
+import com.example.fakestore.ui.product.adapter.ProductAdapter
+import com.example.fakestore.ui.category.FilterBottomSheetFragment
+import com.example.fakestore.util.state.ProductState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

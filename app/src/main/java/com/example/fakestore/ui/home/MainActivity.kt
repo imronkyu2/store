@@ -1,4 +1,4 @@
-package com.example.fakestore.ui.main
+package com.example.fakestore.ui.home
 
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ActivityMainBinding
-import com.example.fakestore.ui.main.home.KeranjangFragment
-import com.example.fakestore.ui.main.product.ProductFragment
+import com.example.fakestore.ui.keranjang.KeranjangFragment
+import com.example.fakestore.ui.product.ProductFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 

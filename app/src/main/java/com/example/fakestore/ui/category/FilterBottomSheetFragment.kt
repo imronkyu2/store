@@ -1,16 +1,14 @@
-package com.example.fakestore.ui.main.product.category
+package com.example.fakestore.ui.category
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakestore.databinding.FilterBottomSheetBinding
-import com.example.fakestore.ui.main.product.ProductViewModel
+import com.example.fakestore.ui.product.ProductViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 

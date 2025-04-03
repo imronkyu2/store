@@ -10,8 +10,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.fakestore.databinding.ActivityLoginBinding
-import com.example.fakestore.ui.ErrorBottomSheetFragment
-import com.example.fakestore.ui.main.MainActivity
+import com.example.fakestore.util.bottomsheet.ErrorBottomSheetFragment
+import com.example.fakestore.ui.home.MainActivity
+import com.example.fakestore.util.state.LoginState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

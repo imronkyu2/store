@@ -1,4 +1,4 @@
-package com.example.fakestore.ui
+package com.example.fakestore.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fakestore.R
 import com.example.fakestore.data.local.TokenManager
 import com.example.fakestore.ui.login.LoginActivity
-import com.example.fakestore.ui.main.MainActivity
+import com.example.fakestore.ui.home.MainActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
