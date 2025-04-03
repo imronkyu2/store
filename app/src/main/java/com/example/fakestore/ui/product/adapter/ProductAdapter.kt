@@ -8,27 +8,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.fakestore.data.model.product.Product
 import com.example.fakestore.databinding.AdapterItemProductBinding
-class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DIFF_CALLBACK) {
+class ProductAdapter(
+    private val onItemClick: (Product) -> Unit
+) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DIFF_CALLBACK) {
 
     inner class ProductViewHolder(private val binding: AdapterItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(product: Product) {
             binding.apply {
                 textTitle.text = product.title
                 textPrice.text = "$${product.price}"
-//                Glide.with(root.context).load(product.image).into(ivProduct)
 
-                // Load image using Glide
                 Glide.with(root.context)
                     .load(product.image)
-                    .placeholder(android.R.drawable.progress_indeterminate_horizontal) // Placeholder saat loading
-                    .error(android.R.drawable.stat_notify_error) // Gambar default jika gagal load
                     .into(imageProduct)
+
+                root.setOnClickListener {
+                    onItemClick(product)
+                }
             }
-
-
-            println("RecyclerView Adapter di-set")
-            println("Produk: ${product}")
         }
     }
 

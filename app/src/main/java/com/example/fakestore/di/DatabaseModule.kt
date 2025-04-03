@@ -2,6 +2,7 @@ package com.example.fakestore.di
 
 import android.content.Context
 import com.example.fakestore.data.local.AppDatabase
+import com.example.fakestore.data.local.cart.CartDao
 import com.example.fakestore.data.local.category.CategoryDao
 import com.example.fakestore.data.local.product.ProductDao
 import dagger.Module
@@ -28,5 +29,10 @@ object DatabaseModule {
     @Provides
     fun provideCategoryDao(appDatabase: AppDatabase): CategoryDao {
         return appDatabase.categoryDao()
+    }
+
+    @Provides
+    fun provideCartDao(appDatabase: AppDatabase): CartDao {
+        return appDatabase.cartDao()
     }
 }

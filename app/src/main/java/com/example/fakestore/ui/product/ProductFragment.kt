@@ -1,5 +1,6 @@
 package com.example.fakestore.ui.product
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import com.example.fakestore.databinding.FragmentProductBinding
 import com.example.fakestore.util.bottomsheet.ErrorBottomSheetFragment
 import com.example.fakestore.ui.product.adapter.ProductAdapter
 import com.example.fakestore.ui.category.FilterBottomSheetFragment
+import com.example.fakestore.ui.detail.ProductDetailActivity
 import com.example.fakestore.util.state.ProductState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -33,7 +35,14 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     }
 
     private fun setupRecyclerView() {
-        productAdapter = ProductAdapter()
+        productAdapter = ProductAdapter { product ->
+            // Launch ProductDetailActivity when item clicked
+            val intent = Intent(requireContext(), ProductDetailActivity::class.java).apply {
+                putExtra("PRODUCT_EXTRA", product)
+            }
+            startActivity(intent)
+        }
+
         binding.recyclerViewProducts.apply {
             adapter = productAdapter
             layoutManager = LinearLayoutManager(requireContext())
