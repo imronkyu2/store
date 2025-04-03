@@ -1,6 +1,7 @@
 package com.example.fakestore.di
 
 import android.content.Context
+import com.example.fakestore.data.local.LocalDataSource
 import com.example.fakestore.data.local.TokenManager
 import com.example.fakestore.data.remote.ApiService
 import com.example.fakestore.data.remote.Repository
@@ -31,8 +32,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(apiService: ApiService, tokenManager: TokenManager, networkMonitor: NetworkMonitor): Repository =
-        Repository(apiService, tokenManager, networkMonitor)
+    fun provideAuthRepository(
+        apiService: ApiService,
+        tokenManager: TokenManager,
+        networkMonitor: NetworkMonitor,
+        localDataSource: LocalDataSource
+    ): Repository =
+        Repository(apiService, tokenManager, networkMonitor, localDataSource)
 
     @Provides
     @Singleton

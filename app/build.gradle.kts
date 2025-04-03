@@ -89,6 +89,9 @@ dependencies {
     implementation(libs.glide)
     kapt(libs.glide.compiler)
 
+    //jwt
+    implementation(libs.auth0.jwt.decode)
+
 }
 
 // Allow references to generated code

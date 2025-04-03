@@ -11,6 +11,7 @@ import com.example.fakestore.data.model.product.Product
 import com.example.fakestore.databinding.FragmentProductBinding
 import com.example.fakestore.ui.ErrorBottomSheetFragment
 import com.example.fakestore.ui.main.product.adapter.ProductAdapter
+import com.example.fakestore.ui.main.product.category.FilterBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -27,6 +28,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
 
         setupRecyclerView()
         observeProducts()
+        setupFilterButton()
     }
 
     private fun setupRecyclerView() {
@@ -50,26 +52,49 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         }
     }
 
+    private fun setupFilterButton() {
+        binding.btnFilter.setOnClickListener {
+            showFilterBottomSheet()
+        }
+    }
+
+    private fun showFilterBottomSheet() {
+        val bottomSheet = FilterBottomSheetFragment().apply {
+            setFilterListener(object : FilterBottomSheetFragment.FilterListener {
+                override fun onApplyFilter(selectedCategories: Set<String>) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.productState.collect { state ->
+                            if (state is ProductState.Success) {
+                                val filtered = if (selectedCategories.isEmpty()) {
+                                    state.products
+                                } else {
+                                    state.products.filter {
+                                        selectedCategories.contains(it.category)
+                                    }
+                                }
+                                showProducts(filtered)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+        bottomSheet.show(parentFragmentManager, FilterBottomSheetFragment.TAG)
+    }
+
     private fun showLoading() {
         binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun showProducts(products: List<Product>) {
         binding.progressBar.visibility = View.GONE
-        binding.recyclerViewProducts.visibility = View.VISIBLE
         productAdapter.submitList(products)
-        productAdapter.notifyDataSetChanged()
-
-        // Debugging
-        println("Jumlah Produk: ${products.size}")
-        println("RecyclerView Visibility: ${binding.recyclerViewProducts.visibility}")
+        binding.recyclerViewProducts.visibility = View.VISIBLE
     }
 
     private fun showError(message: String) {
         binding.progressBar.visibility = View.GONE
-        ErrorBottomSheetFragment(
-            errorMessage = message,
-            onResendClick = { viewModel.refreshProducts() }
-        ).show(parentFragmentManager, "ProductErrorBottomSheet")
+        ErrorBottomSheetFragment(message) { viewModel.refreshProducts() }
+            .show(parentFragmentManager, "ErrorDialog")
     }
 }

@@ -17,6 +17,7 @@ lifecycleRuntimeAndroid = "2.8.7"
 navigation = "2.7.7"
 swiperefreshlayout = "1.1.0"
 glide = "4.16.0"
+auth0-jwt = "2.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +57,8 @@ androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "s
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 
+#jwt
+auth0-jwt-decode = { module = "com.auth0.android:jwtdecode", version.ref = "auth0-jwt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
