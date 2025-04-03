@@ -1,5 +1,6 @@
 package com.example.fakestore.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -10,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.fakestore.databinding.ActivityLoginBinding
 import com.example.fakestore.ui.ErrorBottomSheetFragment
+import com.example.fakestore.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,6 +53,12 @@ class LoginActivity : AppCompatActivity() {
                                 "Login Successful",
                                 Toast.LENGTH_SHORT
                             ).show()
+
+                            Intent(this@LoginActivity, MainActivity::class.java).also { intent ->
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                            }
+                            finish()
                         }
 
                         is LoginState.Error -> {

@@ -1,4 +1,4 @@
-package com.example.fakestore.di// MyApplication.kt
+package com.example.fakestore.di
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 

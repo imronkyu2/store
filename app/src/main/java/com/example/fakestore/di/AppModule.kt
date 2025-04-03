@@ -1,7 +1,9 @@
-package com.example.fakestore.data.remote
+package com.example.fakestore.di
 
 import android.content.Context
 import com.example.fakestore.data.local.TokenManager
+import com.example.fakestore.data.remote.ApiService
+import com.example.fakestore.data.remote.Repository
 import com.example.fakestore.util.NetworkMonitor
 import dagger.Module
 import dagger.Provides
@@ -24,13 +26,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthApiService(retrofit: Retrofit): AuthApiService =
-        retrofit.create(AuthApiService::class.java)
+    fun provideAuthApiService(retrofit: Retrofit): ApiService =
+        retrofit.create(ApiService::class.java)
 
     @Provides
     @Singleton
-    fun provideAuthRepository(apiService: AuthApiService, tokenManager: TokenManager,  networkMonitor: NetworkMonitor): AuthRepository =
-        AuthRepository(apiService, tokenManager, networkMonitor)
+    fun provideAuthRepository(apiService: ApiService, tokenManager: TokenManager, networkMonitor: NetworkMonitor): Repository =
+        Repository(apiService, tokenManager, networkMonitor)
 
     @Provides
     @Singleton

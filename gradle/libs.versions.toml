@@ -14,6 +14,9 @@ retrofit = "2.9.0"
 coroutines = "1.7.3"
 room = "2.6.1"
 lifecycleRuntimeAndroid = "2.8.7"
+navigation = "2.7.7"
+swiperefreshlayout = "1.1.0"
+glide = "4.16.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +46,16 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-lifecycle-runtime-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-android", version.ref = "lifecycleRuntimeAndroid" } # Opsional untuk dukungan Coroutines
+
+# navigation
+navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+
+# Glide
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

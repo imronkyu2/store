@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime.android)
+    implementation(libs.androidx.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,12 +75,19 @@ dependencies {
     // Dagger Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-//    implementation(libs.hilt.viewmodel)
 
     // Room
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
-    implementation(libs.room.ktx)// Opsional
+    implementation(libs.room.ktx)
+
+    // navigation
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
+
+    //glide
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
 
 }
 
