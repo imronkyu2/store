@@ -12,4 +12,6 @@ data class CartItem(
     val price: Double,
     val image: String,
     var quantity: Int = 1
-)
+) {
+    fun getTotalPrice(): Double = price * quantity
+}

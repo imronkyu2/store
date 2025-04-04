@@ -2,6 +2,7 @@
 package com.example.fakestore.data.local.cart
 
 import com.example.fakestore.data.model.product.Product
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -54,5 +55,11 @@ class CartRepository @Inject constructor(
     suspend fun getCartItemQuantity(productId: Int): Int {
         val cartItem = cartDao.getCartItemByProductId(productId)
         return cartItem?.quantity ?: 0
+    }
+
+    fun getAllCartItems(): Flow<List<CartItem>> = cartDao.getAllCartItemsFlow()
+
+    suspend fun updateCartItem(item: CartItem) {
+        cartDao.updateCartItem(item)
     }
 }

@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
@@ -22,17 +23,11 @@ object DatabaseModule {
     }
 
     @Provides
-    fun provideProductDao(appDatabase: AppDatabase): ProductDao {
-        return appDatabase.productDao()
-    }
+    fun provideProductDao(database: AppDatabase): ProductDao = database.productDao()
 
     @Provides
-    fun provideCategoryDao(appDatabase: AppDatabase): CategoryDao {
-        return appDatabase.categoryDao()
-    }
+    fun provideCategoryDao(database: AppDatabase): CategoryDao = database.categoryDao()
 
     @Provides
-    fun provideCartDao(appDatabase: AppDatabase): CartDao {
-        return appDatabase.cartDao()
-    }
+    fun provideCartDao(database: AppDatabase): CartDao = database.cartDao()
 }

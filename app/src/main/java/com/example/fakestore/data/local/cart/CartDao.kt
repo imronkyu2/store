@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 // data/local/cart/CartDao.kt
 // app/src/main/java/com/example/fakestore/data/local/cart/CartDao.kt
@@ -30,4 +31,7 @@ interface CartDao {
 
     @Query("SELECT SUM(quantity) FROM cart_items")
     suspend fun getTotalItemCount(): Int
+
+    @Query("SELECT * FROM cart_items")
+    fun getAllCartItemsFlow(): Flow<List<CartItem>>
 }
