@@ -10,30 +10,29 @@ class LocalDataSource @Inject constructor(
     private val productDao: ProductDao,
     private val categoryDao: CategoryDao
 ) {
-    // Product operations
-    suspend fun saveProducts(products: List<ProductEntity>) {
+    // Product
+    suspend fun saveProducts(userId: Int, products: List<ProductEntity>) {
         productDao.insertProducts(products)
     }
 
-    suspend fun getLocalProducts(): List<ProductEntity> {
-        return productDao.getAllProducts()
+    suspend fun getLocalProducts(userId: Int): List<ProductEntity> {
+        return productDao.getAllProducts(userId)
     }
 
-    // Category operations
-    suspend fun saveCategories(categories: List<CategoryEntity>) {
+    // Category
+    suspend fun saveCategories(userId: Int, categories: List<CategoryEntity>) {
         categoryDao.insertCategories(categories)
     }
 
-    suspend fun getAllCategories(): List<CategoryEntity> {
-        return categoryDao.getAllCategories()
+    suspend fun getAllCategories(userId: Int): List<CategoryEntity> {
+        return categoryDao.getAllCategories(userId)
     }
 
-    suspend fun updateCategoryCheckedStatus(categoryId: Int, isChecked: Boolean) {
-        categoryDao.updateCategoryCheckedStatus(categoryId, isChecked)
+    suspend fun updateCategoryCheckedStatus(userId: Int, categoryId: Int, isChecked: Boolean) {
+        categoryDao.updateCategoryCheckedStatus(userId, categoryId, isChecked)
     }
 
-    suspend fun clearCategorySelections() {
-        // This will update all categories to isChecked = false
-        categoryDao.clearAllSelections()
+    suspend fun clearCategorySelections(userId: Int) {
+        categoryDao.clearAllSelections(userId)
     }
 }

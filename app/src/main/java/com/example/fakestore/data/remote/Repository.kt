@@ -3,12 +3,13 @@ package com.example.fakestore.data.remote
 import com.auth0.android.jwt.JWT
 import com.example.fakestore.data.local.LocalDataSource
 import com.example.fakestore.data.local.TokenManager
-import com.example.fakestore.data.local.category.CategoryEntity
-import com.example.fakestore.data.local.product.ProductEntity
+import com.example.fakestore.data.local.mapper.mapToCategoryEntity
+import com.example.fakestore.data.local.mapper.mapToDomainModel
+import com.example.fakestore.data.local.mapper.mapToEntity
 import com.example.fakestore.data.model.login.LoginRequest
 import com.example.fakestore.data.model.product.Product
-import com.example.fakestore.data.model.product.Rating
 import com.example.fakestore.util.NetworkMonitor
+import com.example.fakestore.util.extensions.getErrorMessage
 import com.example.fakestore.util.state.LoginState
 import com.example.fakestore.util.state.ProductState
 import com.example.fakestore.util.state.ProfileState
@@ -20,7 +21,6 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
 class Repository @Inject constructor(
     private val apiService: ApiService,
@@ -28,6 +28,8 @@ class Repository @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val localDataSource: LocalDataSource
 ) {
+
+    /** AUTH */
     fun login(username: String, password: String) = flow {
         emit(LoginState.Loading)
 
@@ -40,28 +42,19 @@ class Repository @Inject constructor(
             val response = apiService.login(LoginRequest(username, password))
             if (response.isSuccessful) {
                 response.body()?.let {
-                    // Save token to SharedPreferences
                     val token = it.token
-
-                    // Decode JWT untuk mendapatkan nilai `sub`
                     val jwt = JWT(token)
-                    val userId = jwt.getClaim("sub").asInt() // Mengambil sub sebagai Int
+                    val userId = jwt.getClaim("sub").asInt()
 
                     if (userId != null) {
                         tokenManager.saveToken(token, userId)
-                        emit(LoginState.Success(it.token))
+                        emit(LoginState.Success(token))
                     } else {
                         emit(LoginState.Error("Login failed"))
                     }
-
                 }
             } else {
-                val errorMessage = when (response.code()) {
-                    501 -> "Server error (501)"
-                    502 -> "Bad gateway (502)"
-                    else -> "Login failed"
-                }
-                emit(LoginState.Error(errorMessage))
+                emit(LoginState.Error(response.getErrorMessage("Login failed")))
             }
         } catch (e: IOException) {
             emit(LoginState.Error("No Internet Connection"))
@@ -70,18 +63,21 @@ class Repository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-
+    /** PRODUCT */
     fun getProducts() = flow {
         emit(ProductState.Loading)
 
-        // Check local first
+        val userId = tokenManager.getUserId() ?: run {
+            emit(ProductState.Error("User not logged in"))
+            return@flow
+        }
+
         try {
-            val localProducts = localDataSource.getLocalProducts()
+            val localProducts = localDataSource.getLocalProducts(userId)
             if (localProducts.isNotEmpty()) {
                 emit(ProductState.Success(localProducts.mapToDomainModel()))
             }
-        } catch (e: Exception) {
-        }
+        } catch (_: Exception) {}
 
         if (!networkMonitor.isNetworkAvailable()) {
             emit(ProductState.Error("No Internet Connection"))
@@ -92,18 +88,11 @@ class Repository @Inject constructor(
             val response = apiService.getProducts()
             if (response.isSuccessful) {
                 response.body()?.let { products ->
-                    saveProductsAndCategories(products)
+                    saveProductsAndCategories(userId, products)
                     emit(ProductState.Success(products))
                 } ?: emit(ProductState.Error("Empty response body"))
             } else {
-                val errorMessage = when (response.code()) {
-                    404 -> "Products not found (404)"
-                    500 -> "Server error (500)"
-                    502 -> "Bad gateway (502)"
-                    503 -> "Service unavailable (503)"
-                    else -> "Failed to load products (${response.code()})"
-                }
-                emit(ProductState.Error(errorMessage))
+                emit(ProductState.Error(response.getErrorMessage("Failed to load products")))
             }
         } catch (e: IOException) {
             emit(ProductState.Error("Network error: ${e.localizedMessage}"))
@@ -114,34 +103,7 @@ class Repository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    fun getCategories() = flow {
-        try {
-            val categories = localDataSource.getAllCategories()
-            emit(categories)
-        } catch (e: Exception) {
-            emit(emptyList())
-        }
-    }.flowOn(Dispatchers.IO)
-
-    suspend fun updateCategoryCheckedStatus(categoryId: Int, isChecked: Boolean) {
-        localDataSource.updateCategoryCheckedStatus(categoryId, isChecked)
-    }
-
-    private suspend fun saveProductsAndCategories(products: List<Product>) {
-        // Save products
-        localDataSource.saveProducts(products.mapToEntity())
-
-        // Save categories
-        val categories = products.distinctBy { it.category }.mapIndexed { index, product ->
-            CategoryEntity(
-                id = index,
-                name = product.category,
-                isChecked = false
-            )
-        }
-        localDataSource.saveCategories(categories)
-    }
-
+    /** PROFILE */
     fun getUserProfile() = flow {
         emit(ProfileState.Loading)
 
@@ -150,7 +112,6 @@ class Repository @Inject constructor(
             return@flow
         }
 
-        // Cek cache dulu
         tokenManager.getCachedProfile()?.let { cachedProfile ->
             emit(ProfileState.Success(cachedProfile))
             return@flow
@@ -165,12 +126,11 @@ class Repository @Inject constructor(
             val response = apiService.getUser(userId)
             if (response.isSuccessful) {
                 response.body()?.let { user ->
-                    // Simpan ke cache
                     tokenManager.saveProfile(user)
                     emit(ProfileState.Success(user))
                 } ?: emit(ProfileState.Error("User not found"))
             } else {
-                emit(ProfileState.Error("Failed to load profile: ${response.code()}"))
+                emit(ProfileState.Error(response.getErrorMessage("Failed to load profile")))
             }
         } catch (e: IOException) {
             emit(ProfileState.Error("Network error"))
@@ -179,42 +139,34 @@ class Repository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    // Tambahkan sealed class untuk state
-
-
-    // Extension functions untuk konversi model
-    private fun List<Product>.mapToEntity(): List<ProductEntity> {
-        return this.map {
-            ProductEntity(
-                id = it.id,
-                title = it.title,
-                price = it.price,
-                description = it.description,
-                category = it.category,
-                image = it.image,
-                rate = it.rating.rate,
-                count = it.rating.count
-            )
+    /** CATEGORY */
+    fun getCategories() = flow {
+        val userId = tokenManager.getUserId() ?: run {
+            emit(emptyList())
+            return@flow
         }
-    }
 
-    private fun List<ProductEntity>.mapToDomainModel(): List<Product> {
-        return this.map {
-            Product(
-                id = it.id,
-                title = it.title,
-                price = it.price,
-                description = it.description,
-                category = it.category,
-                image = it.image,
-                rating = Rating(rate = it.rate, count = it.count)
-            )
+        try {
+            val categories = localDataSource.getAllCategories(userId)
+            emit(categories)
+        } catch (e: Exception) {
+            emit(emptyList())
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
+    suspend fun updateCategoryCheckedStatus(categoryId: Int, isChecked: Boolean) {
+        val userId = tokenManager.getUserId() ?: return
+        localDataSource.updateCategoryCheckedStatus(userId, categoryId, isChecked)
+    }
 
     suspend fun clearAllCategorySelections() {
-        localDataSource.clearCategorySelections()
+        val userId = tokenManager.getUserId() ?: return
+        localDataSource.clearCategorySelections(userId)
     }
 
+    /** LOCAL HELPERS */
+    private suspend fun saveProductsAndCategories(userId: Int, products: List<Product>) {
+        localDataSource.saveProducts(userId, products.mapToEntity(userId))
+        localDataSource.saveCategories(userId, products.mapToCategoryEntity(userId))
+    }
 }
