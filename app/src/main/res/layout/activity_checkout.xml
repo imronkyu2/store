@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Toolbar Sederhana -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_revert"
+                android:padding="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Checkout"
+                android:textSize="20sp"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <!-- Daftar Produk -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCartItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
+        <!-- Catatan Pengiriman -->
+        <EditText
+            android:id="@+id/etCatatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Catatan pengiriman"
+            android:layout_marginTop="16dp"
+            android:background="@android:drawable/editbox_background" />
+
+        <!-- Ringkasan Belanja -->
+        <TextView android:id="@+id/tvTotalItems" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Jumlah Barang:" android:layout_marginTop="16dp" />
+
+        <TextView android:id="@+id/tvTotalHarga" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Total Harga:" />
+
+        <TextView android:id="@+id/tvPengiriman" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Pengiriman:" />
+
+        <TextView android:id="@+id/tvBiayaLayanan" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Biaya Layanan:" />
+
+        <TextView android:id="@+id/tvTotalTagihan" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Total Tagihan:" android:textStyle="bold" />
+
+        <!-- Tombol Bayar -->
+        <Button
+            android:id="@+id/btnBayarSekarang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bayar Sekarang"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,5 +1,6 @@
 package com.example.fakestore.ui.keranjang
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakestore.R
 import com.example.fakestore.data.local.cart.CartItem
 import com.example.fakestore.databinding.FragmentKeranjangBinding
+import com.example.fakestore.ui.checkout.CheckoutActivity
 import com.example.fakestore.ui.keranjang.adapter.CartItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,16 +32,17 @@ class KeranjangFragment : Fragment(R.layout.fragment_keranjang) {
             },
             onItemRemoved = { item ->
                 viewModel.removeFromCart(item)
-            }
+            },
+            isReadOnly = false // default (tombol muncul)
         )
+
 
         binding.apply {
             rvCartItems.layoutManager = LinearLayoutManager(requireContext())
             rvCartItems.adapter = adapter
 
             btnCheckout.setOnClickListener {
-                viewModel.clearCart()
-                Toast.makeText(requireContext(), "Checkout successful", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(requireContext(), CheckoutActivity::class.java))
             }
         }
 
