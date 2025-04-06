@@ -36,10 +36,14 @@ class CartItemAdapter(
             }
         }
     }
-
     class DiffCallback : DiffUtil.ItemCallback<CartItem>() {
-        override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem) = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: CartItem, newItem: CartItem) = oldItem == newItem
+        override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+            return oldItem.userId == newItem.userId && oldItem.productId == newItem.productId
+        }
+
+        override fun areContentsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+            return oldItem == newItem
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartItemViewHolder {

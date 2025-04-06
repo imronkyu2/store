@@ -7,8 +7,6 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
-// data/local/cart/CartDao.kt
-// app/src/main/java/com/example/fakestore/data/local/cart/CartDao.kt
 @Dao
 interface CartDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -17,21 +15,21 @@ interface CartDao {
     @Update
     suspend fun updateCartItem(cartItem: CartItem)
 
-    @Query("SELECT * FROM cart_items")
-    suspend fun getAllCartItems(): List<CartItem>
+    @Query("SELECT * FROM cart_items WHERE userId = :userId")
+    suspend fun getAllCartItems(userId: Int): List<CartItem>
 
-    @Query("SELECT * FROM cart_items WHERE productId = :productId")
-    suspend fun getCartItemByProductId(productId: Int): CartItem?
+    @Query("SELECT * FROM cart_items WHERE userId = :userId AND productId = :productId")
+    suspend fun getCartItemByProductId(userId: Int, productId: Int): CartItem?
 
-    @Query("DELETE FROM cart_items WHERE productId = :productId")
-    suspend fun deleteCartItem(productId: Int)
+    @Query("DELETE FROM cart_items WHERE userId = :userId AND productId = :productId")
+    suspend fun deleteCartItem(userId: Int, productId: Int)
 
-    @Query("DELETE FROM cart_items")
-    suspend fun clearCart()
+    @Query("DELETE FROM cart_items WHERE userId = :userId")
+    suspend fun clearCart(userId: Int)
 
-    @Query("SELECT SUM(quantity) FROM cart_items")
-    suspend fun getTotalItemCount(): Int
+    @Query("SELECT SUM(quantity) FROM cart_items WHERE userId = :userId")
+    suspend fun getTotalItemCount(userId: Int): Int
 
-    @Query("SELECT * FROM cart_items")
-    fun getAllCartItemsFlow(): Flow<List<CartItem>>
+    @Query("SELECT * FROM cart_items WHERE userId = :userId")
+    fun getAllCartItemsFlow(userId: Int): Flow<List<CartItem>>
 }
