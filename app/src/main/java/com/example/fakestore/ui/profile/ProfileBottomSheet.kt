@@ -9,10 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.fakestore.data.local.prfile.User
 import com.example.fakestore.databinding.FragmentProfileBottomSheetBinding
+import com.example.fakestore.ui.home.MainActivity
 import com.example.fakestore.util.state.ProfileState
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -32,18 +32,28 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
+        setupObservers()
         viewModel.getUserProfile()
-        
+        binding.btnLogout.setOnClickListener { logout() }
+    }
+
+    private fun setupObservers() {
         lifecycleScope.launch {
-            viewModel.profileState.collectLatest { state ->
+            viewModel.profileState.collect { state ->
                 when (state) {
-                    is ProfileState.Loading -> showLoading()
+                    ProfileState.Loading -> showLoading()
                     is ProfileState.Success -> showProfile(state.user)
                     is ProfileState.Error -> showError(state.message)
                 }
             }
         }
+    }
+
+    private fun logout() {
+        // Clear token dan tutup bottom sheet
+        (requireActivity() as? MainActivity)?.logout()
+        dismiss()
     }
 
     private fun showLoading() {
@@ -56,7 +66,7 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
         binding.progressBar.visibility = View.GONE
         binding.contentGroup.visibility = View.VISIBLE
         binding.errorText.visibility = View.GONE
-        
+
         binding.apply {
             tvName.text = "${user.name.firstname} ${user.name.lastname}"
             tvEmail.text = user.email

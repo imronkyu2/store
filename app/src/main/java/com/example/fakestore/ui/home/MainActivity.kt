@@ -1,15 +1,19 @@
 package com.example.fakestore.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.fakestore.R
+import com.example.fakestore.data.local.TokenManager
 import com.example.fakestore.databinding.ActivityMainBinding
 import com.example.fakestore.ui.keranjang.KeranjangFragment
+import com.example.fakestore.ui.login.LoginActivity
 import com.example.fakestore.ui.product.ProductFragment
 import com.example.fakestore.ui.profile.ProfileBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -17,6 +21,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var lastPosition = 1
     private var currentFragment: Fragment = ProductFragment()
+
+    @Inject
+    lateinit var tokenManager: TokenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,15 +44,18 @@ class MainActivity : AppCompatActivity() {
                     newPosition = 1
                     newFragment = ProductFragment()
                 }
+
                 R.id.keranjangFragment -> {
                     newPosition = 2
                     newFragment = KeranjangFragment()
                 }
+
                 R.id.profileBottomSheet -> {
                     // Tampilkan bottom sheet
                     ProfileBottomSheet().show(supportFragmentManager, "ProfileBottomSheet")
                     return@setOnItemSelectedListener true
                 }
+
                 else -> return@setOnItemSelectedListener false
             }
 
@@ -83,5 +93,11 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigationView.selectedItemId = R.id.bottomNavigationView
             loadFragment(1, ProductFragment())
         }
+    }
+
+    fun logout() {
+        tokenManager.clearAll()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }

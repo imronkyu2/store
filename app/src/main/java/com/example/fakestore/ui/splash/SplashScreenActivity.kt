@@ -7,6 +7,7 @@ import com.example.fakestore.R
 import com.example.fakestore.data.local.TokenManager
 import com.example.fakestore.ui.login.LoginActivity
 import com.example.fakestore.ui.home.MainActivity
+import com.google.gson.Gson
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -16,7 +17,7 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        tokenManager = TokenManager(applicationContext)
+        tokenManager = TokenManager(applicationContext, Gson())
 
         // Delay to show splash screen and then check token
         Thread {

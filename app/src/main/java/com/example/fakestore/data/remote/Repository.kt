@@ -4,14 +4,13 @@ import com.auth0.android.jwt.JWT
 import com.example.fakestore.data.local.LocalDataSource
 import com.example.fakestore.data.local.TokenManager
 import com.example.fakestore.data.local.category.CategoryEntity
-import com.example.fakestore.data.local.prfile.User
 import com.example.fakestore.data.local.product.ProductEntity
 import com.example.fakestore.data.model.login.LoginRequest
 import com.example.fakestore.data.model.product.Product
 import com.example.fakestore.data.model.product.Rating
+import com.example.fakestore.util.NetworkMonitor
 import com.example.fakestore.util.state.LoginState
 import com.example.fakestore.util.state.ProductState
-import com.example.fakestore.util.NetworkMonitor
 import com.example.fakestore.util.state.ProfileState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -41,7 +40,7 @@ class Repository @Inject constructor(
             val response = apiService.login(LoginRequest(username, password))
             if (response.isSuccessful) {
                 response.body()?.let {
-                   // Save token to SharedPreferences
+                    // Save token to SharedPreferences
                     val token = it.token
 
                     // Decode JWT untuk mendapatkan nilai `sub`
@@ -81,7 +80,8 @@ class Repository @Inject constructor(
             if (localProducts.isNotEmpty()) {
                 emit(ProductState.Success(localProducts.mapToDomainModel()))
             }
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+        }
 
         if (!networkMonitor.isNetworkAvailable()) {
             emit(ProductState.Error("No Internet Connection"))
@@ -142,9 +142,19 @@ class Repository @Inject constructor(
         localDataSource.saveCategories(categories)
     }
 
-    // tambahkan di Repository.kt
-    fun getUser(userId: Int) = flow {
+    fun getUserProfile() = flow {
         emit(ProfileState.Loading)
+
+        val userId = tokenManager.getUserId() ?: run {
+            emit(ProfileState.Error("User not logged in"))
+            return@flow
+        }
+
+        // Cek cache dulu
+        tokenManager.getCachedProfile()?.let { cachedProfile ->
+            emit(ProfileState.Success(cachedProfile))
+            return@flow
+        }
 
         if (!networkMonitor.isNetworkAvailable()) {
             emit(ProfileState.Error("No Internet Connection"))
@@ -154,8 +164,10 @@ class Repository @Inject constructor(
         try {
             val response = apiService.getUser(userId)
             if (response.isSuccessful) {
-                response.body()?.let {
-                    emit(ProfileState.Success(it))
+                response.body()?.let { user ->
+                    // Simpan ke cache
+                    tokenManager.saveProfile(user)
+                    emit(ProfileState.Success(user))
                 } ?: emit(ProfileState.Error("User not found"))
             } else {
                 emit(ProfileState.Error("Failed to load profile: ${response.code()}"))

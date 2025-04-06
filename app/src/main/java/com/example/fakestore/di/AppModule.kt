@@ -6,6 +6,7 @@ import com.example.fakestore.data.local.TokenManager
 import com.example.fakestore.data.remote.ApiService
 import com.example.fakestore.data.remote.Repository
 import com.example.fakestore.util.NetworkMonitor
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,4 +46,8 @@ object AppModule {
     fun provideNetworkMonitor(@ApplicationContext context: Context): NetworkMonitor {
         return NetworkMonitor(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = Gson()
 }
