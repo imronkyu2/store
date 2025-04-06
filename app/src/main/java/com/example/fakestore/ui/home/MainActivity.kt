@@ -8,6 +8,7 @@ import com.example.fakestore.R
 import com.example.fakestore.databinding.ActivityMainBinding
 import com.example.fakestore.ui.keranjang.KeranjangFragment
 import com.example.fakestore.ui.product.ProductFragment
+import com.example.fakestore.ui.profile.ProfileBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -36,12 +37,15 @@ class MainActivity : AppCompatActivity() {
                     newPosition = 1
                     newFragment = ProductFragment()
                 }
-
                 R.id.keranjangFragment -> {
                     newPosition = 2
                     newFragment = KeranjangFragment()
                 }
-
+                R.id.profileBottomSheet -> {
+                    // Tampilkan bottom sheet
+                    ProfileBottomSheet().show(supportFragmentManager, "ProfileBottomSheet")
+                    return@setOnItemSelectedListener true
+                }
                 else -> return@setOnItemSelectedListener false
             }
 

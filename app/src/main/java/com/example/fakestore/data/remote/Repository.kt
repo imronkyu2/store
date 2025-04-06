@@ -4,6 +4,7 @@ import com.auth0.android.jwt.JWT
 import com.example.fakestore.data.local.LocalDataSource
 import com.example.fakestore.data.local.TokenManager
 import com.example.fakestore.data.local.category.CategoryEntity
+import com.example.fakestore.data.local.prfile.User
 import com.example.fakestore.data.local.product.ProductEntity
 import com.example.fakestore.data.model.login.LoginRequest
 import com.example.fakestore.data.model.product.Product
@@ -11,6 +12,7 @@ import com.example.fakestore.data.model.product.Rating
 import com.example.fakestore.util.state.LoginState
 import com.example.fakestore.util.state.ProductState
 import com.example.fakestore.util.NetworkMonitor
+import com.example.fakestore.util.state.ProfileState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -139,6 +141,34 @@ class Repository @Inject constructor(
         }
         localDataSource.saveCategories(categories)
     }
+
+    // tambahkan di Repository.kt
+    fun getUser(userId: Int) = flow {
+        emit(ProfileState.Loading)
+
+        if (!networkMonitor.isNetworkAvailable()) {
+            emit(ProfileState.Error("No Internet Connection"))
+            return@flow
+        }
+
+        try {
+            val response = apiService.getUser(userId)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(ProfileState.Success(it))
+                } ?: emit(ProfileState.Error("User not found"))
+            } else {
+                emit(ProfileState.Error("Failed to load profile: ${response.code()}"))
+            }
+        } catch (e: IOException) {
+            emit(ProfileState.Error("Network error"))
+        } catch (e: Exception) {
+            emit(ProfileState.Error("Unexpected error"))
+        }
+    }.flowOn(Dispatchers.IO)
+
+    // Tambahkan sealed class untuk state
+
 
     // Extension functions untuk konversi model
     private fun List<Product>.mapToEntity(): List<ProductEntity> {
