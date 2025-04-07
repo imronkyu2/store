@@ -92,6 +92,8 @@ dependencies {
     //jwt
     implementation(libs.auth0.jwt.decode)
 
+    implementation(libs.lottie)
+
 }
 
 // Allow references to generated code

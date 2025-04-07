@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fakestore.R
 import com.example.fakestore.data.local.TokenManager
-import com.example.fakestore.ui.login.LoginActivity
 import com.example.fakestore.ui.home.MainActivity
+import com.example.fakestore.ui.login.LoginActivity
 import com.google.gson.Gson
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -19,19 +19,16 @@ class SplashScreenActivity : AppCompatActivity() {
 
         tokenManager = TokenManager(applicationContext, Gson())
 
-        // Delay to show splash screen and then check token
         Thread {
-            Thread.sleep(2000) // Splash screen delay
+            Thread.sleep(4000)
             runOnUiThread {
                 val token = tokenManager.getToken()
                 if (token != null) {
-                    // If token exists, navigate to MainActivity
                     startActivity(Intent(this, MainActivity::class.java))
                 } else {
-                    // If no token, navigate to LoginActivity
                     startActivity(Intent(this, LoginActivity::class.java))
                 }
-                finish() // Finish SplashScreenActivity so it doesn't stay in the back stack
+                finish()
             }
         }.start()
     }

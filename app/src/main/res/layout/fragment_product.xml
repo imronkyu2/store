@@ -5,23 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.product.ProductFragment">
 
-    <!-- Header Section -->
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
-        android:paddingTop="40dp"
+        android:paddingTop="35dp"
+        android:elevation="2dp"
         android:paddingBottom="16dp"
-        android:background="?attr/colorPrimary">
+        android:background="@color/white">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/products"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -35,13 +35,14 @@
             android:src="@drawable/baseline_filter_list_24" />
     </LinearLayout>
 
-    <!-- RecyclerView for Products -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProducts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/headerLayout"
-        tools:listitem="@layout/adapter_item_product" />
+        tools:listitem="@layout/adapter_item_product"
+        android:layoutAnimation="@anim/layout_animation_item_up_to_down"/>
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -18,6 +18,7 @@ navigation = "2.7.7"
 swiperefreshlayout = "1.1.0"
 glide = "4.16.0"
 auth0-jwt = "2.0.2"
+lottie = "5.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,6 +60,9 @@ glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = 
 
 #jwt
 auth0-jwt-decode = { module = "com.auth0.android:jwtdecode", version.ref = "auth0-jwt" }
+
+#lottie
+lottie = {module = "com.airbnb.android:lottie", version.ref = "lottie"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -7,18 +7,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.fakestore.data.model.product.Product
-import com.example.fakestore.databinding.AdapterItemProductBinding
+import com.example.fakestore.databinding.AdapterItemProductV2Binding
+
 class ProductAdapter(
     private val onItemClick: (Product) -> Unit
 ) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DIFF_CALLBACK) {
 
-    inner class ProductViewHolder(private val binding: AdapterItemProductBinding) :
+    inner class ProductViewHolder(private val binding: AdapterItemProductV2Binding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Product) {
             binding.apply {
                 textTitle.text = product.title
                 textPrice.text = "$${product.price}"
+                ratingTV.text = "$${product.rating.rate}"
 
                 Glide.with(root.context)
                     .load(product.image)
@@ -32,7 +34,8 @@ class ProductAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        val binding = AdapterItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            AdapterItemProductV2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ProductViewHolder(binding)
     }
 
