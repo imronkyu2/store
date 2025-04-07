@@ -1,76 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="35dp"
+        android:paddingBottom="16dp">
 
-        <!-- Toolbar Sederhana -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_toEndOf="@+id/btnBack"
+            android:drawablePadding="10dp"
+            android:text="@string/checkout"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/ic_shop_bag"
+            app:drawableTint="@color/teal_200" />
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomLayout"
+        android:layout_below="@+id/headerLayout"
+        android:padding="16dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_revert"
-                android:padding="4dp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCartItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                style="@style/TextBlack.size14spBolt"
+                android:layout_marginTop="10dp"
+                android:text="@string/enter_notes" />
+
+            <EditText
+                android:id="@+id/etCatatan"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Checkout"
-                android:textSize="20sp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginVertical="15dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:drawable/editbox_background"
+                android:elevation="3dp"
+                android:hint="@string/shipping_notes"
+                android:importantForAutofill="no"
+                android:lines="3"
+                android:maxLines="5"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:id="@+id/tvTotalItems"
+                style="@style/TextBlack.size14spBolt"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:text="@string/jumlah_barang"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tvTotalHarga"
+                style="@style/TextBlack.size14spBolt"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:text="@string/total_price"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tvPengiriman"
+                style="@style/TextBlack.size14spBolt"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:text="@string/delivery"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tvBiayaLayanan"
+                style="@style/TextBlack.size14spBolt"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:text="@string/service_fee"
+                android:textStyle="normal" />
         </LinearLayout>
+    </ScrollView>
 
-        <!-- Daftar Produk -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCartItems"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+    <LinearLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:padding="15dp">
 
-        <!-- Catatan Pengiriman -->
-        <EditText
-            android:id="@+id/etCatatan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Catatan pengiriman"
-            android:layout_marginTop="16dp"
-            android:background="@android:drawable/editbox_background" />
+        <TextView
+            android:id="@+id/tvTotalTagihan"
+            style="@style/TextBlack.size14spBolt"
+            android:layout_marginVertical="10dp"
+            android:text="@string/total_bill" />
 
-        <!-- Ringkasan Belanja -->
-        <TextView android:id="@+id/tvTotalItems" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="Jumlah Barang:" android:layout_marginTop="16dp" />
 
-        <TextView android:id="@+id/tvTotalHarga" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="Total Harga:" />
-
-        <TextView android:id="@+id/tvPengiriman" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="Pengiriman:" />
-
-        <TextView android:id="@+id/tvBiayaLayanan" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="Biaya Layanan:" />
-
-        <TextView android:id="@+id/tvTotalTagihan" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="Total Tagihan:" android:textStyle="bold" />
-
-        <!-- Tombol Bayar -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBayarSekarang"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bayar Sekarang"
             android:layout_marginTop="16dp"
-            android:textColor="@android:color/white"/>
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/backhround_radius_15dp_white"
+            android:backgroundTint="@color/blue7985f2"
+            android:text="@string/pay_now"
+            android:textColor="@color/white" />
+
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>

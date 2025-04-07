@@ -63,6 +63,8 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     private fun setupCartControls(product: Product) {
+        binding.backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+
         binding.btnAddToCart.setOnClickListener {
             lifecycleScope.launch {
                 cartRepository.addToCart(product)

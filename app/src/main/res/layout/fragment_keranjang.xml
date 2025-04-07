@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="10dp"
-            android:text="Keranjang"
+            android:text="@string/cart"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -64,7 +64,7 @@
             android:id="@+id/tvTotalPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total: $0.00"
+            android:text="@string/total_0_00"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -76,7 +76,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/backhround_radius_15dp_white"
             android:backgroundTint="@color/blue7985f2"
-            android:text="Checkout"
+            android:text="@string/checkout"
             android:textColor="@color/white" />
 
     </LinearLayout>

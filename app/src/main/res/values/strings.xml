@@ -31,6 +31,17 @@
     <string name="rating_format">%.1f</string>
     <string name="category">Kategori</string>
     <string name="remove">Remove</string>
+    <string name="cart">Keranjang</string>
+    <string name="checkout">Checkout</string>
+    <string name="shipping_notes">Catatan pengiriman</string>
+    <string name="jumlah_barang">Jumlah Barang:</string>
+    <string name="total_price">Total Harga:</string>
+    <string name="total_bill">Total Tagihan:</string>
+    <string name="service_fee">Biaya Layanan:</string>
+    <string name="delivery">Pengiriman:</string>
+    <string name="pay_now">Bayar Sekarang</string>
+    <string name="total_0_00">Total: $0.00</string>
+    <string name="enter_notes">Masukkan catatan:</string>
 
 
 </resources>
