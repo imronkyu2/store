@@ -51,7 +51,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
             // Set animasi layout
             val context = context
             val controller =
-                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_item_up_to_down)
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_up_to_down)
             layoutAnimation = controller
         }
     }

@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottomLayout"
         android:layout_below="@+id/headerLayout"
+        android:layoutAnimation="@anim/layout_animation_item_left_to_right"
         tools:listitem="@layout/item_cart" />
 
 

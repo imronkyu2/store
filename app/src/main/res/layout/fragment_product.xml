@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/headerLayout"
-        android:layoutAnimation="@anim/layout_animation_item_up_to_down"
+        android:layoutAnimation="@anim/layout_animation_up_to_down"
         tools:listitem="@layout/adapter_item_product" />
 
     <ProgressBar
