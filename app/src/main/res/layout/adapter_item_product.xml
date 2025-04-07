@@ -1,52 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    android:layout_margin="12dp"
+    android:background="@drawable/backhround_radius_15dp_white"
+    android:elevation="1.5dp"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:orientation="vertical">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageProduct"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/product_02_01"
+            app:shapeAppearance="@style/CornerCut" />
 
         <ImageView
-            android:id="@+id/imageProduct"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="centerCrop" />
+            android:layout_width="50dp"
+            android:layout_height="55dp"
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@drawable/ic_price_tag_price_svgrepo_com"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/textCategory"
+                style="@style/TextBlack.size14spBolt"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/brand_name" />
+
+            <TextView
+                android:id="@+id/textTitle"
+                style="@style/TextBlack.size12sp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/product_name" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="#424242"
-                android:textSize="12sp" />
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/ratingTV"
+                    style="@style/TextContent.Small.Black"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/dummyrating"
+                    app:drawableStartCompat="@drawable/ic_baseline_star_24" />
+
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextBlack.size14spBolt"
+                        android:layout_width="match_parent"
+                        android:ellipsize="end"
+                        android:text="@string/price"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        android:id="@+id/textPrice"
+                        style="@style/PriceText"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:ellipsize="end"
+                        android:text="@string/xxxxxx"
+                        android:textAlignment="textEnd"
+                        android:textSize="14dp" />
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

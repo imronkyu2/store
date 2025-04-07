@@ -27,5 +27,10 @@
     <string name="my_name">Imron Nanda Marpaung</string>
     <string name="my_email">imron.nanda@mhs.pelitabangsa.ac.id</string>
     <string name="size">Ukuran Yang Tersedia:</string>
+    <string name="price_format">$%.2f</string>
+    <string name="rating_format">★ %.1f</string>
+    <string name="category">Kategori</string>
+    <string name="remove">Remove</string>
+
 
 </resources>

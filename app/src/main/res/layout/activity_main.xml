@@ -17,8 +17,13 @@
         android:layout_alignParentBottom="true"
         android:elevation="6dp"
         app:backgroundTint="@color/white"
-        app:itemIconTint="@color/black"
+        app:itemIconTint="@color/blue7985f2"
         app:itemTextColor="@color/black"
         app:menu="@menu/bottom_nav_menu" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_above="@id/bottomNavigationView"/>
 </RelativeLayout>

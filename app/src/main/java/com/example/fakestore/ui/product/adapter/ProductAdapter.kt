@@ -6,36 +6,40 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.fakestore.R
 import com.example.fakestore.data.model.product.Product
-import com.example.fakestore.databinding.AdapterItemProductV2Binding
+import com.example.fakestore.databinding.AdapterItemProductBinding
 
 class ProductAdapter(
     private val onItemClick: (Product) -> Unit
 ) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DIFF_CALLBACK) {
 
-    inner class ProductViewHolder(private val binding: AdapterItemProductV2Binding) :
+    inner class ProductViewHolder(private val binding: AdapterItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: Product) {
-            binding.apply {
-                textTitle.text = product.title
-                textPrice.text = "$${product.price}"
-                ratingTV.text = "$${product.rating.rate}"
+        fun bind(product: Product) = with(binding) {
+            textTitle.text = product.title
 
-                Glide.with(root.context)
-                    .load(product.image)
-                    .into(imageProduct)
+            val context = root.context
+            textPrice.text = context.getString(R.string.price_format, product.price)
+            ratingTV.text = context.getString(R.string.rating_format, product.rating.rate)
 
-                root.setOnClickListener {
-                    onItemClick(product)
-                }
+            Glide.with(context)
+                .load(product.image)
+                .placeholder(R.color.gray_light_color)
+                .error(R.drawable.ic_app)
+                .into(imageProduct)
+
+            root.setOnClickListener {
+                onItemClick(product)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        val binding =
-            AdapterItemProductV2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = AdapterItemProductBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return ProductViewHolder(binding)
     }
 

@@ -47,7 +47,7 @@ class ProductDetailActivity : AppCompatActivity() {
             textPrice.text = "$${product.price}"
             textDescription.text = product.description
             textCategory.text = product.category
-            textRating.text = "Rating: ${product.rating.rate} (${product.rating.count} reviews)"
+            textRating.text = "${product.rating.rate} (${product.rating.count} reviews)"
 
             Glide.with(this@ProductDetailActivity)
                 .load(product.image)
