@@ -13,7 +13,7 @@ import com.example.fakestore.databinding.ItemCartBinding
 class CartItemAdapter(
     private val onQuantityChanged: (CartItem, Int) -> Unit,
     private val onItemRemoved: (CartItem) -> Unit,
-    private val isReadOnly: Boolean = false // ✅ Tambahan flag
+    private val isReadOnly: Boolean = false
 ) : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder>(DiffCallback()) {
 
     class CartItemViewHolder(private val binding: ItemCartBinding) :
